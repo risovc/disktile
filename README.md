@@ -111,4 +111,4 @@ To test the macOS UI, treemap calculations, and drag-and-drop trash mechanics im
 ```bash
 python3 preview_app/server.py 8888
 ```
-Open **`http://cpl-famous-store-24951.c.googlers.com:8888`** in your browser.
+Open **`http://localhost:8888`** in your browser.
