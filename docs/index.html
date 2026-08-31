@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <!-- Basic Meta Tags -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>DiskTile — Native macOS Storage Visualizer & Space Reclaim Tool</title>
+  <meta name="description" content="DiskTile is a lightning-fast, native macOS storage visualizer. Spot disk hogs with squarified treemap tiles, uncover hidden developer caches, and safely drag & drop to Trash. Built with 100% Swift & SwiftUI.">
+  <meta name="keywords" content="DiskTile, macOS storage visualizer, mac disk space analyzer, disk cleaner mac, treemap storage mac, Xcode DerivedData cleaner, node_modules cleaner, macbook storage, swiftui mac app, mac disk reclamation, Risov Chakrabortty">
+  <meta name="author" content="Risov Chakrabortty">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#0d0e12">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://risov.github.io/disktile/">
+
+  <!-- Open Graph Meta Tags (Facebook, LinkedIn, Slack) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="DiskTile for macOS">
+  <meta property="og:title" content="DiskTile — Native macOS Storage Visualizer & Cleaner">
+  <meta property="og:description" content="Visualize every gigabyte with live squarified treemap tiles. Reveal hidden developer caches and drag-and-drop to Trash with native macOS speed.">
+  <meta property="og:url" content="https://risov.github.io/disktile/">
+  <meta property="og:image" content="https://risov.github.io/disktile/assets/images/og-preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="DiskTile macOS App Storage Treemap Preview">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="DiskTile — Native macOS Storage Visualizer">
+  <meta name="twitter:description" content="Spot disk hogs instantly with squarified proportional tiles and safely reclaim storage on your Mac.">
+  <meta name="twitter:image" content="https://risov.github.io/disktile/assets/images/og-preview.png">
+  <meta name="twitter:creator" content="@risov">
+
+  <!-- Apple Touch & Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230a84ff'/><path d='M25 35h50v35H25z' fill='%23ffffff' opacity='0.9'/><path d='M35 25h30v10H35z' fill='%23ffffff'/><circle cx='50' cy='52' r='8' fill='%230a84ff'/></svg>">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- Structured Data / JSON-LD (Schema.org for SEO) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "name": "DiskTile",
+        "operatingSystem": "macOS 13.0, macOS 14.0, macOS 15.0+",
+        "applicationCategory": "UtilitiesApplication",
+        "applicationSubCategory": "Disk Space Analyzer",
+        "downloadUrl": "https://github.com/risov/disktile/releases",
+        "softwareVersion": "1.0.0",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "description": "Lightning-fast, native macOS storage visualizer and space reclamation application featuring squarified treemap tiles, deep hidden cache exploration, and interactive Drag & Drop to Trash.",
+        "author": {
+          "@type": "Person",
+          "name": "Risov Chakrabortty",
+          "email": "risov@chakrabortty.in",
+          "url": "https://chakrabortty.in"
+        }
+      },
+      {
+        "@type": "WebSite",
+        "name": "DiskTile — Mac Storage Visualizer",
+        "url": "https://risov.github.io/disktile/",
+        "author": {
+          "@type": "Person",
+          "name": "Risov Chakrabortty"
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <!-- =========================================================================
+       macOS Top Menu Bar (Global Navigation & Live Clock)
+       ========================================================================= -->
+  <header class="macos-menubar" role="banner">
+    <div class="menubar-left">
+      <div class="apple-logo-btn" title="About DiskTile">
+        <svg viewBox="0 0 170 170">
+          <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.7-3.08-7.7-7.86-12.01-14.36-6.19-9.3-11.01-19.8-14.46-31.5-3.45-11.7-5.18-22.9-5.18-33.6 0-14.28 3.65-26.3 10.95-36.06 7.3-9.76 16.7-14.77 28.2-15.03 4.8 0 10.2 1.25 16.2 3.75 6 2.5 10.05 3.8 12.15 3.9 1.7 0 5.8-1.3 12.3-3.9 6.5-2.6 12-3.8 16.5-3.6 12.2.6 21.9 5.3 29.1 14.1-10.7 6.5-16 15.4-15.9 26.7.1 9.4 3.7 17.3 10.8 23.7 7.1 6.4 15.5 10 25.2 10.8-2 6.6-4.7 13.4-8.1 20.4zM119.22 31.95c0-7.2 2.6-13.9 7.8-20.1 5.2-6.2 11.5-9.8 18.9-10.8.2 1.4.3 2.6.3 3.6 0 7.2-2.8 14.1-8.4 20.7-5.6 6.6-12.3 10.3-20.1 11.1-.3-1.5-.5-3-.5-4.5z"/>
+        </svg>
+      </div>
+      <span class="menubar-app-title">DiskTile</span>
+      <nav class="menubar-nav-links" aria-label="Main Navigation">
+        <a href="#showcase" class="menubar-item">Interactive Demo</a>
+        <a href="#features" class="menubar-item">Features</a>
+        <a href="#quick-clean" class="menubar-item">Quick Clean</a>
+        <a href="#install" class="menubar-item">Install</a>
+        <a href="#specs" class="menubar-item">Tech Specs</a>
+        <a href="#faq" class="menubar-item">FAQ</a>
+        <a href="#developer" class="menubar-item">Developer</a>
+      </nav>
+    </div>
+
+    <div class="menubar-right">
+      <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle Theme Appearance">☀️</button>
+      <div class="menubar-status-item" title="Universal Binary">
+        <span>⚡ Apple Silicon & Intel</span>
+      </div>
+      <div class="menubar-status-item" id="menubarClock">Mon Aug 31 1:00 PM</div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       Main Content Container
+       ========================================================================= -->
+  <main class="main-wrapper" id="main-content">
+
+    <!-- =======================================================================
+         Hero Section
+         ======================================================================= -->
+    <section class="hero-section" aria-labelledby="hero-title">
+      <div class="hero-pill">
+        <span class="hero-pill-badge">NEW</span>
+        <span>DiskTile 1.0 for macOS Sequoia, Sonoma & Ventura</span>
+      </div>
+
+      <h1 class="hero-headline" id="hero-title">
+        Visualize every gigabyte.<br>Reclaim unwarranted space.
+      </h1>
+
+      <p class="hero-description">
+        The blazing-fast, 100% native macOS storage visualizer. Pinpoint massive folders with squarified treemap tiles, unveil buried developer caches, and safely drag & drop directly into the macOS Trash.
+      </p>
+
+      <div class="hero-cta-group">
+        <a href="#install" class="btn-primary" id="heroDownloadBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>Download for macOS</span>
+        </a>
+
+        <a href="https://github.com/risov/disktile" target="_blank" rel="noopener noreferrer" class="btn-secondary" id="heroGithubBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          <span>Star on GitHub</span>
+        </a>
+
+        <a href="#showcase" class="btn-secondary">
+          <span>✨ Try Live Interactive Demo</span>
+        </a>
+      </div>
+
+      <div class="hero-spec-pills">
+        <div class="hero-spec-item">
+          <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+          <span>100% Native Swift & SwiftUI</span>
+        </div>
+        <div class="hero-spec-item">
+          <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+          <span>Zero Dependencies</span>
+        </div>
+        <div class="hero-spec-item">
+          <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+          <span>100% Offline & Private</span>
+        </div>
+        <div class="hero-spec-item">
+          <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+          <span>Safe macOS Trash Recycling</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         Interactive Showcase (Live macOS App Sandbox)
+         ======================================================================= -->
+    <section class="showcase-container section-spacing" id="showcase" aria-labelledby="showcase-heading">
+      <div class="section-header">
+        <span class="section-tag">Interactive Sandbox</span>
+        <h2 class="section-title" id="showcase-heading">Experience DiskTile right in your browser</h2>
+        <p class="section-subtitle">
+          Double-click tiles to drill down, toggle hidden dotfiles, inspect metadata, and drag folders directly into the Trash.
+        </p>
+      </div>
+
+      <!-- Embedded macOS App Window Mockup -->
+      <div class="showcase-window">
+        <!-- Titlebar -->
+        <div class="showcase-titlebar">
+          <div class="showcase-traffic-lights">
+            <span class="showcase-dot dot-red"></span>
+            <span class="showcase-dot dot-yellow"></span>
+            <span class="showcase-dot dot-green"></span>
+          </div>
+
+          <div class="showcase-segmented">
+            <button class="showcase-tab active" data-preset="developer">👨‍💻 Dev MacBook (348.2 GB)</button>
+            <button class="showcase-tab" data-preset="media">🎬 Media Studio (420.5 GB)</button>
+          </div>
+
+          <div class="showcase-tools">
+            <button class="tool-btn active" id="showcaseHiddenBtn" title="Toggle Hidden Files">
+              <span>👁️ Dotfiles</span>
+            </button>
+            <button class="tool-btn" id="showcaseRescanBtn" title="Rescan Target">
+              <span>🔄 Rescan</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Breadcrumb Path Bar -->
+        <div class="showcase-breadcrumbs" id="showcaseBreadcrumbs">
+          <!-- Dynamic Breadcrumbs -->
+        </div>
+
+        <!-- App Body (Treemap Canvas + Inspector) -->
+        <div class="showcase-body">
+          <div class="showcase-treemap-canvas" id="showcaseCanvas">
+            <!-- Dynamic Treemap Tiles -->
+          </div>
+
+          <div class="showcase-inspector" id="showcaseInspector">
+            <!-- Dynamic Inspector Details -->
+          </div>
+        </div>
+
+        <!-- App Statusbar with Trash Target -->
+        <div class="showcase-statusbar">
+          <div class="storage-gauge-cluster">
+            <span>💽</span>
+            <span>Macintosh HD: 163.8 GB Free of 512 GB</span>
+            <div class="storage-mini-meter">
+              <div class="storage-mini-fill"></div>
+            </div>
+          </div>
+
+          <!-- Drag and Drop Trash Target -->
+          <div class="trash-drop-target" id="showcaseTrashZone" title="Drag any tile here to simulate moving to Trash">
+            <span class="trash-icon-pill">🗑️</span>
+            <div>
+              <div style="font-size:11px;font-weight:600;">Drag Files / Folders Here</div>
+              <div style="font-size:9px;color:var(--text-secondary);">Safely reclaim space into macOS Trash</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         Core Features Grid
+         ======================================================================= -->
+    <section class="section-spacing" id="features" aria-labelledby="features-heading">
+      <div class="section-header">
+        <span class="section-tag">Key Features</span>
+        <h2 class="section-title" id="features-heading">Built specifically for macOS power users</h2>
+        <p class="section-subtitle">
+          Engineered from the ground up in Swift for zero overhead, instant startup, and effortless disk management.
+        </p>
+      </div>
+
+      <div class="features-grid">
+        <!-- Feature 1 -->
+        <article class="feature-card">
+          <div class="feature-icon-wrapper" style="color:var(--accent-orange);">🗺️</div>
+          <h3 class="feature-card-title">Squarified Treemap Visualization</h3>
+          <p class="feature-card-desc">
+            Uses the Bruls-Huizing-van Wijk algorithm to calculate proportional tiles with optimal aspect ratios. Large files and bloated folders immediately jump out without visual clutter.
+          </p>
+          <div class="feature-pill-list">
+            <span class="feature-mini-pill">Aspect Ratio Optimization</span>
+            <span class="feature-mini-pill">Category Gradients</span>
+            <span class="feature-mini-pill">Live Relative Dates</span>
+          </div>
+        </article>
+
+        <!-- Feature 2 -->
+        <article class="feature-card">
+          <div class="feature-icon-wrapper" style="color:var(--accent-teal);">🔍</div>
+          <h3 class="feature-card-title">Deep Hidden Cache Exploration</h3>
+          <p class="feature-card-desc">
+            Standard Finder hides gigabytes of bloat. DiskTile surfaces hidden dotfolders like <code>.cache</code>, <code>DerivedData</code>, <code>node_modules</code>, <code>~/.npm</code>, and <code>~/Library/Caches</code> with visual badges.
+          </p>
+          <div class="feature-pill-list">
+            <span class="feature-mini-pill">One-Click Toggle (⌘⇧.)</span>
+            <span class="feature-mini-pill">Library Support</span>
+            <span class="feature-mini-pill">Dotfiles Badge</span>
+          </div>
+        </article>
+
+        <!-- Feature 3 -->
+        <article class="feature-card">
+          <div class="feature-icon-wrapper" style="color:var(--accent-red);">🗑️</div>
+          <h3 class="feature-card-title">Native Drag & Drop to Trash</h3>
+          <p class="feature-card-desc">
+            No dangerous permanent deletes. Drag any folder or tile into the macOS Dock-styled Trash drop zone to safely recycle items via Apple's official <code>FileManager.default.trashItem</code> API.
+          </p>
+          <div class="feature-pill-list">
+            <span class="feature-mini-pill">Apple Trash API</span>
+            <span class="feature-mini-pill">Reclaimable Space</span>
+            <span class="feature-mini-pill">Spring Animations</span>
+          </div>
+        </article>
+
+        <!-- Feature 4 -->
+        <article class="feature-card">
+          <div class="feature-icon-wrapper" style="color:var(--accent-green);">⚡</div>
+          <h3 class="feature-card-title">1-Click Developer Quick Clean</h3>
+          <p class="feature-card-desc">
+            Instantly detect and wipe out heavy developer build caches: Xcode Module Caches, Android Gradle caches, Rust Cargo registries, Homebrew downloads, and stale node_modules.
+          </p>
+          <div class="feature-pill-list">
+            <span class="feature-mini-pill">Xcode DerivedData</span>
+            <span class="feature-mini-pill">NPM & Cargo</span>
+            <span class="feature-mini-pill">Instant Reclamation</span>
+          </div>
+        </article>
+
+        <!-- Feature 5 -->
+        <article class="feature-card">
+          <div class="feature-icon-wrapper" style="color:var(--accent-blue);">🚀</div>
+          <h3 class="feature-card-title">High-Performance Async Scanner</h3>
+          <p class="feature-card-desc">
+            Underlying scanner leverages POSIX <code>stat</code> and non-blocking Swift concurrency with cyclic symlink protection, throttling progress updates for ultra-smooth 60fps interaction.
+          </p>
+          <div class="feature-pill-list">
+            <span class="feature-mini-pill">POSIX Fast Path</span>
+            <span class="feature-mini-pill">Symlink Loop Protection</span>
+            <span class="feature-mini-pill">60fps UI</span>
+          </div>
+        </article>
+
+        <!-- Feature 6 -->
+        <article class="feature-card">
+          <div class="feature-icon-wrapper" style="color:var(--accent-purple);">🔒</div>
+          <h3 class="feature-card-title">100% Private & Open Source</h3>
+          <p class="feature-card-desc">
+            Your file names and folder structures never leave your MacBook. Zero telemetry, zero external trackers, zero cloud connections, and completely auditable open-source Swift code.
+          </p>
+          <div class="feature-pill-list">
+            <span class="feature-mini-pill">Zero Telemetry</span>
+            <span class="feature-mini-pill">100% Offline</span>
+            <span class="feature-mini-pill">MIT Licensed</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         Quick Clean Presets Section
+         ======================================================================= -->
+    <section class="section-spacing" id="quick-clean" aria-labelledby="quick-clean-heading">
+      <div class="section-header">
+        <span class="section-tag">Instant Reclamation</span>
+        <h2 class="section-title" id="quick-clean-heading">What bloated folders does DiskTile find?</h2>
+        <p class="section-subtitle">
+          Most Mac developers and creators carry over 50 GB to 150 GB of redundant build artifacts and stale temporary caches.
+        </p>
+      </div>
+
+      <div class="clean-presets-grid">
+        <div class="clean-preset-card">
+          <div class="clean-preset-icon cat-developer">🔨</div>
+          <div class="clean-preset-info">
+            <div class="clean-preset-name">Xcode DerivedData & Module Cache</div>
+            <div class="clean-preset-path">~/Library/Developer/Xcode/DerivedData</div>
+            <div class="clean-preset-savings">Avg. Savings: 20 GB – 80 GB</div>
+          </div>
+        </div>
+
+        <div class="clean-preset-card">
+          <div class="clean-preset-icon cat-developer">📦</div>
+          <div class="clean-preset-info">
+            <div class="clean-preset-name">Project node_modules Folders</div>
+            <div class="clean-preset-path">~/Projects/**/node_modules</div>
+            <div class="clean-preset-savings">Avg. Savings: 15 GB – 50 GB</div>
+          </div>
+        </div>
+
+        <div class="clean-preset-card">
+          <div class="clean-preset-icon cat-caches">🗑️</div>
+          <div class="clean-preset-info">
+            <div class="clean-preset-name">User Application Caches</div>
+            <div class="clean-preset-path">~/Library/Caches (Chrome, Slack, etc.)</div>
+            <div class="clean-preset-savings">Avg. Savings: 10 GB – 40 GB</div>
+          </div>
+        </div>
+
+        <div class="clean-preset-card">
+          <div class="clean-preset-icon cat-caches">⚙️</div>
+          <div class="clean-preset-info">
+            <div class="clean-preset-name">NPM, Yarn & Cargo Registries</div>
+            <div class="clean-preset-path">~/.npm/_cacache, ~/.cargo/registry</div>
+            <div class="clean-preset-savings">Avg. Savings: 10 GB – 30 GB</div>
+          </div>
+        </div>
+
+        <div class="clean-preset-card">
+          <div class="clean-preset-icon cat-archives">📥</div>
+          <div class="clean-preset-info">
+            <div class="clean-preset-name">Stale Downloaded Installers</div>
+            <div class="clean-preset-path">~/Downloads (*.dmg, *.pkg, *.iso)</div>
+            <div class="clean-preset-savings">Avg. Savings: 20 GB – 60 GB</div>
+          </div>
+        </div>
+
+        <div class="clean-preset-card">
+          <div class="clean-preset-icon cat-media">🎬</div>
+          <div class="clean-preset-info">
+            <div class="clean-preset-name">Final Cut & Premiere Render Files</div>
+            <div class="clean-preset-path">~/Movies/**/Render Files</div>
+            <div class="clean-preset-savings">Avg. Savings: 30 GB – 120 GB</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         Installation & Terminal Section
+         ======================================================================= -->
+    <section class="section-spacing" id="install" aria-labelledby="install-heading">
+      <div class="section-header">
+        <span class="section-tag">Get Started</span>
+        <h2 class="section-title" id="install-heading">Install DiskTile on your Mac in seconds</h2>
+        <p class="section-subtitle">
+          Choose between Homebrew, the standalone .app bundle, or building directly from source via Swift Package Manager.
+        </p>
+      </div>
+
+      <div class="install-card">
+        <div class="terminal-header">
+          <div class="showcase-traffic-lights">
+            <span class="showcase-dot dot-red"></span>
+            <span class="showcase-dot dot-yellow"></span>
+            <span class="showcase-dot dot-green"></span>
+          </div>
+          <span class="terminal-title">Terminal — zsh</span>
+          <span></span>
+        </div>
+
+        <div class="terminal-body">
+          <!-- Option 1: Clone & Build via Swift PM -->
+          <div>
+            <div class="cmd-comment"># Option 1: Clone from GitHub and compile native DiskTile.app with Swift Package Manager</div>
+            <div class="cmd-block">
+              <span class="cmd-text">git clone https://github.com/risov/disktile.git && cd disktile && ./scripts/package_macos_app.sh</span>
+              <button class="copy-cmd-btn" data-copy-text="git clone https://github.com/risov/disktile.git && cd disktile && ./scripts/package_macos_app.sh">
+                <span>📋 Copy</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Option 2: Swift Run directly -->
+          <div>
+            <div class="cmd-comment"># Option 2: Run directly from Terminal in release mode without installation</div>
+            <div class="cmd-block">
+              <span class="cmd-text">cd disktile/DiskTile && swift run -c release</span>
+              <button class="copy-cmd-btn" data-copy-text="cd disktile/DiskTile && swift run -c release">
+                <span>📋 Copy</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Option 3: Standalone Shell Scanner -->
+          <div>
+            <div class="cmd-comment"># Option 3: Run standalone POSIX CLI scanner without GUI (outputs JSON metrics)</div>
+            <div class="cmd-block">
+              <span class="cmd-text">./scripts/storage_scanner.sh ~ 2 true</span>
+              <button class="copy-cmd-btn" data-copy-text="./scripts/storage_scanner.sh ~ 2 true">
+                <span>📋 Copy</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         Technical Specifications & Comparison Table
+         ======================================================================= -->
+    <section class="section-spacing" id="specs" aria-labelledby="specs-heading">
+      <div class="section-header">
+        <span class="section-tag">Specifications</span>
+        <h2 class="section-title" id="specs-heading">Technical specifications & comparisons</h2>
+        <p class="section-subtitle">
+          How DiskTile compares against traditional disk utilities and legacy Mac cleaners.
+        </p>
+      </div>
+
+      <div class="specs-table-wrapper">
+        <table class="specs-table">
+          <thead>
+            <tr>
+              <th>Feature / Metric</th>
+              <th style="color:var(--accent-blue);">DiskTile</th>
+              <th>DaisyDisk</th>
+              <th>CleanMyMac</th>
+              <th>GrandPerspective</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Architecture</strong></td>
+              <td style="color:var(--accent-green);font-weight:600;">100% Native Swift 5.9 & SwiftUI</td>
+              <td>Objective-C / Swift</td>
+              <td>Proprietary Heavy Framework</td>
+              <td>Cocoa / Objective-C</td>
+            </tr>
+            <tr>
+              <td><strong>External Dependencies</strong></td>
+              <td style="color:var(--accent-green);font-weight:600;">0 (Zero runtime deps)</td>
+              <td>0</td>
+              <td>Many background daemons</td>
+              <td>0</td>
+            </tr>
+            <tr>
+              <td><strong>Treemap Aspect Ratio</strong></td>
+              <td style="color:var(--accent-green);font-weight:600;">Squarified (Bruls et al.)</td>
+              <td>Sunburst Rings only</td>
+              <td>List categories only</td>
+              <td>Rectangular Treemap</td>
+            </tr>
+            <tr>
+              <td><strong>Drag & Drop to Trash</strong></td>
+              <td style="color:var(--accent-green);font-weight:600;">✓ Safe Apple Trash recycling</td>
+              <td>✓ Drag to pin</td>
+              <td>✕ Immediate deletion</td>
+              <td>✕ Delete confirmation</td>
+            </tr>
+            <tr>
+              <td><strong>Developer Caches (DerivedData, NPM)</strong></td>
+              <td style="color:var(--accent-green);font-weight:600;">✓ Specialized Quick Clean Presets</td>
+              <td>✕ Manual search needed</td>
+              <td>Partial</td>
+              <td>✕ Manual search needed</td>
+            </tr>
+            <tr>
+              <td><strong>License & Telemetry</strong></td>
+              <td style="color:var(--accent-green);font-weight:600;">MIT Open Source • 0 Telemetry</td>
+              <td>Paid ($9.99)</td>
+              <td>Subscription ($39.95/yr)</td>
+              <td>GPL</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         Frequently Asked Questions (FAQ)
+         ======================================================================= -->
+    <section class="section-spacing" id="faq" aria-labelledby="faq-heading">
+      <div class="section-header">
+        <span class="section-tag">FAQ</span>
+        <h2 class="section-title" id="faq-heading">Frequently asked questions</h2>
+        <p class="section-subtitle">
+          Everything you need to know about permissions, safety, and compatibility.
+        </p>
+      </div>
+
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Does DiskTile require Full Disk Access on macOS?</span>
+            <span class="faq-toggle-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            Scanning your normal user Home folder (<code>~/</code>) and Downloads works immediately. However, if you want to scan protected system directories such as <code>~/Library/Application Support</code>, <code>~/Library/Caches</code>, or the entire root drive (<code>/</code>), macOS requires Full Disk Access. You can enable it in <strong>System Settings → Privacy & Security → Full Disk Access</strong>.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Is moving items to Trash safe? Can I recover deleted files?</span>
+            <span class="faq-toggle-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            Yes, 100%! DiskTile uses Apple's official <code>FileManager.default.trashItem(at:resultingItemURL:)</code> API. When you drag a tile to the Trash or click "Move to Trash", the file is safely moved into the macOS Trash bin. You can easily open Trash in Finder and click "Put Back" at any time.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Which macOS versions and Macs are supported?</span>
+            <span class="faq-toggle-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            DiskTile is compatible with macOS 13 (Ventura), macOS 14 (Sonoma), and macOS 15 (Sequoia). It is compiled as a Universal 2 binary, providing native blazing-fast performance on both Apple Silicon (M1, M2, M3, M4) and Intel Macs.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Does DiskTile send any data over the network?</span>
+            <span class="faq-toggle-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            No. DiskTile is strictly 100% offline and privacy-first. There are zero analytics, no telemetry, no tracking scripts, and no internet network permissions required.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         Developer & Contact Profile
+         ======================================================================= -->
+    <section class="section-spacing" id="developer" aria-labelledby="dev-heading">
+      <div class="section-header">
+        <span class="section-tag">Author</span>
+        <h2 class="section-title" id="dev-heading">Meet the Developer</h2>
+      </div>
+
+      <div class="developer-card">
+        <div class="dev-avatar">👨‍💻</div>
+        <div class="dev-details">
+          <div class="dev-name">Risov Chakrabortty</div>
+          <div class="dev-role">Software Engineer & Systems Creator</div>
+          <p class="dev-bio">
+            Passionate about building high-performance, native systems software, beautiful developer tooling, and clean macOS applications. Built DiskTile to solve everyday storage clutter for Mac developers and digital creators worldwide.
+          </p>
+          <div class="dev-contacts">
+            <a href="mailto:risov@chakrabortty.in" class="dev-link-pill">
+              <span>✉️</span>
+              <span>risov@chakrabortty.in</span>
+            </a>
+            <a href="https://github.com/risov" target="_blank" rel="noopener noreferrer" class="dev-link-pill">
+              <span>🐙</span>
+              <span>github.com/risov</span>
+            </a>
+            <a href="https://github.com/risov/disktile" target="_blank" rel="noopener noreferrer" class="dev-link-pill">
+              <span>⭐</span>
+              <span>DiskTile Repository</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================================================================
+       Floating macOS Dock (Interactive Bottom Bar)
+       ========================================================================= -->
+  <div class="macos-dock-container" role="navigation" aria-label="macOS Dock Navigation">
+    <div class="macos-dock">
+      <div class="dock-item" data-target="hero-title" title="Home">
+        <span>💾</span>
+        <span class="dock-item-tooltip">DiskTile Home</span>
+      </div>
+      <div class="dock-item" data-target="showcase" title="Interactive Demo">
+        <span>✨</span>
+        <span class="dock-item-tooltip">Live Demo</span>
+      </div>
+      <div class="dock-item" data-target="features" title="Features">
+        <span>🗺️</span>
+        <span class="dock-item-tooltip">Features</span>
+      </div>
+      <div class="dock-item" data-target="quick-clean" title="Quick Clean">
+        <span>⚡</span>
+        <span class="dock-item-tooltip">Quick Clean</span>
+      </div>
+      <div class="dock-item" data-target="install" title="Install Terminal">
+        <span>💻</span>
+        <span class="dock-item-tooltip">Terminal Install</span>
+      </div>
+      <div class="dock-sep"></div>
+      <div class="dock-item" data-target="developer" title="Developer Contact">
+        <span>👤</span>
+        <span class="dock-item-tooltip">Risov Chakrabortty</span>
+      </div>
+      <a href="https://github.com/risov/disktile" target="_blank" rel="noopener noreferrer" class="dock-item" title="GitHub Repository">
+        <span>🐙</span>
+        <span class="dock-item-tooltip">GitHub</span>
+      </a>
+      <div class="dock-item" data-target="showcase" title="Trash Can">
+        <span>🗑️</span>
+        <span class="dock-item-tooltip">Trash Drop Zone</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       Site Footer
+       ========================================================================= -->
+  <footer class="site-footer">
+    <div class="footer-links">
+      <a href="#showcase" class="footer-link">Interactive Demo</a>
+      <a href="#features" class="footer-link">Features</a>
+      <a href="#install" class="footer-link">Installation</a>
+      <a href="#specs" class="footer-link">Specifications</a>
+      <a href="#faq" class="footer-link">FAQ</a>
+      <a href="mailto:risov@chakrabortty.in" class="footer-link">Contact</a>
+      <a href="https://github.com/risov/disktile" target="_blank" rel="noopener noreferrer" class="footer-link">GitHub</a>
+    </div>
+    <p>© 2026 DiskTile. Designed and Developed by <strong>Risov Chakrabortty</strong> (<a href="mailto:risov@chakrabortty.in">risov@chakrabortty.in</a>).</p>
+    <p style="margin-top:6px;font-size:11px;">macOS, Apple Silicon, Finder, and Xcode are trademarks of Apple Inc. DiskTile is an independent open-source project.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
