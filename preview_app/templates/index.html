@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DiskTile — Mac Storage Visualizer</title>
+  <link rel="stylesheet" href="/static/css/macos.css">
+</head>
+<body>
+
+  <!-- Main macOS App Window -->
+  <div class="macos-window">
+    
+    <!-- Titlebar & Unified macOS Toolbar -->
+    <header class="window-titlebar">
+      <div class="traffic-lights">
+        <span class="traffic-light close" title="Close"></span>
+        <span class="traffic-light minimize" title="Minimize"></span>
+        <span class="traffic-light maximize" title="Zoom / Fullscreen"></span>
+      </div>
+
+      <div class="app-title-cluster">
+        <div class="app-icon-badge">💾</div>
+        <span>DiskTile</span>
+      </div>
+
+      <div class="toolbar-center">
+        <div class="segmented-control">
+          <button class="segment-btn active" data-scope="developer">👨‍💻 Dev MacBook</button>
+          <button class="segment-btn" data-scope="media">🎬 Media Studio</button>
+          <button class="segment-btn" data-scope="local">📁 Local Files</button>
+        </div>
+
+        <button class="btn-icon" id="rescanBtn" title="Rescan Target (⌘R)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="23 4 23 10 17 10"></polyline>
+            <polyline points="1 20 1 14 7 14"></polyline>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+          </svg>
+        </button>
+      </div>
+
+      <div class="toolbar-right">
+        <!-- Search Input -->
+        <div class="search-input-wrapper">
+          <svg viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2" fill="none"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65" stroke="currentColor" stroke-width="2"></line>
+          </svg>
+          <input type="text" id="searchInput" class="search-input" placeholder="Search folder or file...">
+        </div>
+
+        <!-- Hidden Files Toggle -->
+        <button class="btn-icon active" id="toggleHiddenBtn" title="Toggle Hidden / Dotfiles (⌘⇧.)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+        </button>
+
+        <!-- Quick Clean Presets -->
+        <button class="btn-quick-clean" id="quickCleanBtn">
+          <span>✨</span>
+          <span>Quick Clean</span>
+        </button>
+
+        <!-- Toggle Inspector -->
+        <button class="btn-icon" id="toggleInspectorBtn" title="Toggle Inspector Sidebar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="15" y1="3" x2="15" y2="21"></line>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Path Breadcrumb Bar -->
+    <nav class="breadcrumb-bar" id="breadcrumbBar">
+      <!-- Breadcrumbs injected dynamically -->
+    </nav>
+
+    <!-- Main Workspace -->
+    <main class="window-body">
+      <!-- Treemap Canvas -->
+      <section class="treemap-container" id="treemapContainer">
+        <!-- Proportional tiles injected here -->
+      </section>
+
+      <!-- Inspector Sidebar -->
+      <aside class="inspector-sidebar" id="inspectorSidebar">
+        <!-- Inspector metadata injected dynamically -->
+      </aside>
+    </main>
+
+    <!-- Status Bar with Drive Capacity & Trash Drop Zone -->
+    <footer class="window-status-bar">
+      <!-- Volume Info -->
+      <div class="disk-usage-widget">
+        <span class="disk-icon">💽</span>
+        <div class="disk-text-cluster">
+          <span id="diskMeterLabel" style="font-weight:600;">Macintosh HD: 163.8 GB Free of 512.0 GB</span>
+          <div class="disk-meter">
+            <div class="disk-meter-fill" id="diskMeterFill" style="width: 68%;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Drag & Drop Trash Zone -->
+      <div class="trash-drop-zone" id="trashDropZone" title="Drag any tile or folder here to move to macOS Trash">
+        <div class="trash-can-icon">🗑️</div>
+        <div>
+          <div class="trash-title">Drag Items Here to Trash</div>
+          <div class="trash-subtitle">Safely reclaim storage into macOS Trash</div>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Quick Clean Presets Modal -->
+  <div class="modal-overlay" id="quickCleanModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div>
+          <h3 style="font-size:15px;font-weight:700;">✨ Quick Clean Presets</h3>
+          <p style="font-size:11px;color:var(--text-secondary);margin-top:2px;">Reclaim significant space by clearing developer and system caches.</p>
+        </div>
+        <button class="btn-icon" onclick="document.getElementById('quickCleanModal').classList.remove('active')">✕</button>
+      </div>
+      <div class="modal-body" id="quickCleanBody">
+        <!-- Preset candidate cards injected dynamically -->
+      </div>
+      <div class="modal-footer">
+        <div>
+          <span style="font-size:11px;color:var(--text-secondary);">Selected to Reclaim:</span>
+          <span id="quickCleanTotalSize" style="font-size:14px;font-weight:700;color:var(--accent-green);margin-left:4px;">0 B</span>
+        </div>
+        <div style="display:flex;gap:10px;">
+          <button class="btn-inspector secondary" id="cancelCleanBtn">Cancel</button>
+          <button class="btn-inspector danger" id="confirmCleanBtn" style="font-weight:600;">Move to Trash</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Context Menu -->
+  <div class="context-menu" id="contextMenu"></div>
+
+  <!-- Toast Notification -->
+  <div class="toast-notification" id="toastNotification">Notification message</div>
+
+  <script src="/static/js/treemap.js"></script>
+</body>
+</html>
