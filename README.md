@@ -104,7 +104,7 @@ Run the standalone scanner in Terminal to analyze any directory and get JSON met
 ./scripts/storage_scanner.sh ~ 2 true
 ```
 
-### 3. Interactive Live Preview (Web / Cloudtop)
+### 3. Interactive Live Preview (Web )
 
 To test the macOS UI, treemap calculations, and drag-and-drop trash mechanics immediately on your browser:
 
